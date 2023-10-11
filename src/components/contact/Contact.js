@@ -1,138 +1,68 @@
-// Contact.js
 import React, { useState } from 'react';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import './styles-contact.scss';
 
-import JD from '../../assets/images/J&D.png'
 
-function Contact() {
-  const [showMantenimiento, setShowMantenimiento] = useState(false);
-  const [showAsesorias, setShowAsesorias] = useState(false);
+function YourComponent() {
+  const categories = [
+    { categoryId: "1", categoryName: "Mantenimiento", imageCategory: "https://static8.depositphotos.com/1432042/938/i/450/depositphotos_9384106-stock-photo-young-engineer.jpg" },
+    { categoryId: "2", categoryName: "Asesorias", imageCategory: "https://www.cooptraiss.com/media/com_jbusinessdirectory/pictures/companies/0/cropped-1592835850.jpeg" },
+    { categoryId: "3", categoryName: "Servicios", imageCategory: 'https://media.istockphoto.com/id/1471444483/es/foto/concepto-de-encuesta-de-satisfacci%C3%B3n-del-cliente-los-usuarios-califican-las-experiencias-de.jpg?s=612x612&w=0&k=20&c=Bgf3bkIo4eIQDrC55iKezs-UbWzXuTB78Q-NjujIeIE=' },
+  ];
 
-  const handleCardClick = () => {
-    setShowMantenimiento(!showMantenimiento);
-    
+  const Services = [
+    {serviceId: "1", categoryId: "1", ServiceName: "TiposDeMantenimiento", photo: ["https://www.elg-asesores.com/images/joomlart/categories/servicio-mantenimiento_001.jpg", "https://kleversoft.com/wp-content/uploads/2021/02/mantenimiento-1.jpg", "https://peruconstruye.net/wp-content/uploads/2018/11/MANTENIMIENTO-MAQUUINARIA-PESADA.jpg"]},
+    {serviceId: "2", categoryId: "2", ServiceName: "TiposDeAsesorias", photo: ["https://images.pexels.com/photos/5669619/pexels-photo-5669619.jpeg?auto=compress&cs=tinysrgb&w=600","https://images.pexels.com/photos/4475523/pexels-photo-4475523.jpeg?auto=compress&cs=tinysrgb&w=600", "https://lh3.googleusercontent.com/p/AF1QipOSF-jTKDvt08ozrig6A2BLwWrDwD3RzL2MKjsm=w1080-h608-p-no-v0"]},
+    {serviceId: "3", categoryId: "3", ServiceName: "TiposDeServicios", photo: ["https://media.istockphoto.com/id/1366023581/es/foto/foto-recortada-de-un-apuesto-joven-agente-del-centro-de-llamadas-que-trabaja-en-su-oficina.jpg?s=612x612&w=0&k=20&c=50gCt3bdW0b3wmFwawnVUyAilvx_vTHwsyKxhB6S2Iw=", "https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?auto=compress&cs=tinysrgb&w=600", "https://images.pexels.com/photos/4098232/pexels-photo-4098232.jpeg?auto=compress&cs=tinysrgb&w=600"]}
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const handleCategoryClick = (categoryId) => {
+    if (selectedCategory === categoryId) {
+      setSelectedCategory(null); // Deselecciona la categoría si ya está seleccionada
+    } else {
+      setSelectedCategory(categoryId); // Selecciona la categoría si no está seleccionada
+    }
   };
-  
-  const handleCardClick1 = () => {
-    setShowAsesorias(!showAsesorias);
-    
-  };
-
-
-  
-
   return (
-    <div className="contact-container">
-      <div className="card-container">
-        {/* Tarjeta de Mantenimiento */}
-        <div
-          className={`card ${showMantenimiento ? 'active' : ''}`}
-          onClick={handleCardClick}
+    
+    <div className="card-container">
+      {categories.map((category) => (
+        <Card
+          key={category.categoryId}
+          onClick={() => handleCategoryClick(category.categoryId)}
+          className={selectedCategory === category.categoryId ? 'active card' : 'card'}
         >
-          {/* Contenido de la tarjeta de Mantenimiento */}
-          <img
-            src="https://static8.depositphotos.com/1432042/938/i/450/depositphotos_9384106-stock-photo-young-engineer.jpg"
-            alt="Mantenimiento"
-            className="card-image"
+          <CardMedia className='cardMedia-category'
+            component="img"
+            src={category.imageCategory}
+            alt="green iguana"
           />
-          <div className="card-content">
-            <h2>Mantenimiento</h2>
-          </div>
-        </div>
-
-        {/* Tarjeta de Asesorías */}
-        <div className={`card ${showAsesorias ? 'active' : ''}`}
-          onClick={handleCardClick1}
-          >
-          {/* Contenido de la tarjeta de Asesorías */}
-          <img
-            src="https://www.cooptraiss.com/media/com_jbusinessdirectory/pictures/companies/0/cropped-1592835850.jpeg"
-            alt="Asesorías"
-            className="card-image"
-          />
-          <div className="card-content">
-            <h2>Asesorías</h2>
-          </div>
-        </div>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {category.categoryName}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))} 
+      <div className="service-card">
+      {Services.filter((service) => service.categoryId === selectedCategory).map((filteredService) => ( 
+        <Card key={filteredService.serviceId} className='card-service'>
+          {filteredService.photo.map((photo, index) => (
+            <CardMedia className='cardMedia'
+              key={index}
+              component="img"
+              src={photo}
+              alt={`Service ${filteredService.serviceId} Image ${index + 1}`}
+            />
+          ))}
+        </Card>    
+      ))}
       </div>
-
-      {/* Mostrar el componente de Mantenimiento cuando showMantenimiento es true */}
-      {showMantenimiento && (
-        <div className="additional-cards-column">
-          {/* Card 1 */}
-          <div className="additional-card">
-            <img
-              src="https://www.elg-asesores.com/images/joomlart/categories/servicio-mantenimiento_001.jpg"
-              alt="Mantenimiento Industrial"
-              className="additional-card-image"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>Mantenimiento Industrial</h3>
-          </div>
-
-          {/* Card 2 */}
-          <div className="additional-card">
-          <img
-              src="https://kleversoft.com/wp-content/uploads/2021/02/mantenimiento-1.jpg"
-              alt="Mantenimiento de Hardware"
-              className="additional-card-image"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>mantenimiento de Hardware</h3>
-          </div>
-
-          {/* Card 3 */}
-          <div className="additional-card">
-          <img
-              src="https://peruconstruye.net/wp-content/uploads/2018/11/MANTENIMIENTO-MAQUUINARIA-PESADA.jpg"
-              alt="Mantenimiento de maquinaria pesada"
-              className="additional-card-image"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>Mantenimiento de maquinaria pesada</h3>
-          </div>
-        </div>
-      )}
-
-      {/* Mostrar el componente de Mantenimiento cuando showMantenimiento es true */}
-      {showAsesorias && (
-        <div className="additional-cards-column1">
-          {/* Card 1 */}
-          <div className="additional-card1">
-            <img
-              src={JD}
-              alt="Asesoria Contable y Juridica"
-              className="additional-card-image"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>Asesoria Contable y Juridica</h3>
-          </div>
-
-          {/* Card 2 */}
-          <div className="additional-card1">
-          <img
-              src="https://www.comunicare.es/wp-content/uploads/2021/08/asesoria-de-marketing-online.jpg"
-              alt="Asesoria en Marketing"
-              className="additional-card-image1"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>Asesoria en Marketing</h3>
-          </div>
-
-          {/* Card 3 */}
-          <div className="additional-card1">
-          <img
-              src="https://lh3.googleusercontent.com/p/AF1QipOSF-jTKDvt08ozrig6A2BLwWrDwD3RzL2MKjsm=w1080-h608-p-no-v0"
-              alt="Asesoria Informatica"
-              className="additional-card-image1"
-            />
-            {/* Agrega el contenido relacionado aquí */}
-            <h3>Asesoria Informatica</h3>
-          </div>
-        </div>
-      )}
     </div>
-  );
+  ); 
 }
-
-export default Contact;
+export default YourComponent;
